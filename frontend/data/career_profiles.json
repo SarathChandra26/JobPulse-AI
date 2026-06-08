@@ -1,0 +1,195 @@
+{
+    "Data Analyst": {
+        "role_info": {
+            "skills": [
+                "SQL",
+                "Python",
+                "Excel",
+                "Power BI",
+                "Statistics"
+            ],
+            "certifications": [
+                "SQL and Relational Databases 101",
+                "Data Analysis with Python",
+                "Microsoft Power BI"
+            ],
+            "projects": [
+                "JobPulse AI",
+                "Customer Churn Analysis",
+                "Sales Analytics Dashboard"
+            ],
+            "salary": "6-10 LPA",
+            "demand": "High"
+        },
+        "salary": {
+            "entry": "6-10 LPA",
+            "3_years": "12-18 LPA",
+            "5_years": "20-30 LPA"
+        },
+        "roadmap": [
+            "Learn SQL",
+            "Learn Python",
+            "Learn Pandas",
+            "Learn Statistics",
+            "Learn Power BI",
+            "Build JobPulse AI",
+            "Prepare for Interviews"
+        ]
+    },
+    "Analytics Engineer": {
+        "role_info": {
+            "skills": [
+                "SQL",
+                "Python",
+                "ETL",
+                "Data Modeling",
+                "Analytics Engineering"
+            ],
+            "certifications": [
+                "dbt Fundamentals",
+                "Data Engineering Basics",
+                "SQL Advanced"
+            ],
+            "projects": [
+                "JobPulse AI",
+                "Modern Data Warehouse",
+                "Analytics Pipeline"
+            ],
+            "salary": "8-14 LPA",
+            "demand": "Very High"
+        },
+        "salary": {
+            "entry": "8-14 LPA",
+            "3_years": "18-28 LPA",
+            "5_years": "30-45 LPA"
+        },
+        "roadmap": [
+            "Advanced SQL",
+            "Python",
+            "ETL Pipelines",
+            "Data Modeling",
+            "dbt Fundamentals",
+            "Cloud Basics",
+            "Build Analytics Projects"
+        ]
+    },
+    "Data Engineer": {
+        "role_info": {
+            "skills": [
+                "SQL",
+                "Python",
+                "Spark",
+                "ETL",
+                "Data Warehousing"
+            ],
+            "certifications": [
+                "Data Engineering",
+                "Spark Basics",
+                "Cloud Fundamentals"
+            ],
+            "projects": [
+                "Data Lake Project",
+                "ETL Pipeline",
+                "JobPulse AI"
+            ],
+            "salary": "8-15 LPA",
+            "demand": "Very High"
+        },
+        "salary": {
+            "entry": "8-15 LPA",
+            "3_years": "20-30 LPA",
+            "5_years": "35-50 LPA"
+        },
+        "roadmap": [
+            "SQL",
+            "Python",
+            "ETL",
+            "Spark",
+            "Data Warehousing",
+            "Cloud",
+            "Pipeline Projects"
+        ]
+    },
+    "Business Analyst": {
+        "role_info": {
+            "skills": [
+                "Excel",
+                "SQL",
+                "Power BI",
+                "Business Analysis",
+                "Stakeholder Management"
+            ],
+            "certifications": [
+                "Business Analysis Fundamentals"
+            ],
+            "projects": [
+                "Market Analysis",
+                "Customer Analytics"
+            ],
+            "salary": "6-12 LPA",
+            "demand": "High"
+        },
+        "salary": "Role Not Found",
+        "roadmap": [
+            "Roadmap Not Found"
+        ]
+    },
+    "Product Analyst": {
+        "role_info": {
+            "skills": [
+                "SQL",
+                "Python",
+                "A/B Testing",
+                "Product Metrics",
+                "Analytics"
+            ],
+            "certifications": [
+                "Product Analytics"
+            ],
+            "projects": [
+                "Product Analytics Dashboard",
+                "User Behavior Analysis"
+            ],
+            "salary": "10-18 LPA",
+            "demand": "High"
+        },
+        "salary": "Role Not Found",
+        "roadmap": [
+            "Roadmap Not Found"
+        ]
+    },
+    "SDE": {
+        "role_info": {
+            "skills": [
+                "Java",
+                "DSA",
+                "OOP",
+                "DBMS",
+                "System Design"
+            ],
+            "certifications": [
+                "Oracle Java"
+            ],
+            "projects": [
+                "Full Stack Project",
+                "JobPulse AI"
+            ],
+            "salary": "8-20 LPA",
+            "demand": "Very High"
+        },
+        "salary": {
+            "entry": "8-20 LPA",
+            "3_years": "20-40 LPA",
+            "5_years": "40-70 LPA"
+        },
+        "roadmap": [
+            "Java",
+            "DSA",
+            "OOP",
+            "DBMS",
+            "Operating Systems",
+            "System Design",
+            "Full Stack Project"
+        ]
+    }
+}

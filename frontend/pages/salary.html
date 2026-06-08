@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salary Intelligence — JobPulse AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <style>
+    .salary-role-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .salary-role-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-2px);
+    }
+
+    .salary-role-card.featured {
+      border-color: rgba(59,130,246,0.3);
+      background: rgba(59,130,246,0.06);
+    }
+
+    .salary-role-name {
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 16px;
+    }
+
+    .salary-progression {
+      display: flex;
+      gap: 0;
+      margin-top: 12px;
+    }
+
+    .sal-stage {
+      flex: 1;
+      text-align: center;
+      padding: 10px 4px;
+      position: relative;
+    }
+
+    .sal-stage::after {
+      content: '→';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .sal-stage:last-child::after { display: none; }
+
+    .sal-stage-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .sal-stage-value {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .sal-stage.peak .sal-stage-value { color: var(--accent-cyan); }
+
+    .sal-bar-track {
+      height: 4px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .sal-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .global-table-wrap {
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="../index.html" class="nav-brand">
+    <div class="nav-logo-mark">J</div>
+    <span class="nav-brand-text">JobPulse <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="career.html">Career Advisor</a></li>
+    <li><a href="salary.html" class="active">Salary</a></li>
+    <li><a href="trends.html">AI Trends</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">Launch App →</a></li>
+  </ul>
+  <button class="nav-toggle">☰</button>
+</nav>
+
+<div class="page-content">
+  <div class="container-fluid-custom">
+    <div style="padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;">
+      <div class="section-label">Compensation Intelligence</div>
+      <h1 class="section-title">Salary <span class="grad">Intelligence</span></h1>
+      <p class="section-desc">Compare entry, mid, and senior compensation for all major data and engineering roles.</p>
+    </div>
+
+    <!-- Indian Market Projections -->
+    <div class="section-label mb-3">Indian Market (LPA)</div>
+    <div class="row g-4 mb-5" id="india-salary-cards"></div>
+
+    <!-- Global Chart -->
+    <div class="section-label mb-3">Global Developer Salaries (USD)</div>
+    <div class="chart-container mb-5 animate-on-scroll">
+      <div class="chart-title">Average Annual Salary by Developer Role</div>
+      <div class="chart-subtitle">Stack Overflow Developer Survey 2024 · Global respondents</div>
+      <div id="chart-global-salaries" style="height:480px;"></div>
+    </div>
+
+    <!-- Table -->
+    <div class="section-label mb-3">Full Salary Reference Table</div>
+    <div class="chart-container animate-on-scroll">
+      <div class="chart-title">Global Developer Compensation</div>
+      <div class="chart-subtitle">Sorted by average annual salary (USD)</div>
+      <div class="global-table-wrap mt-4">
+        <table class="data-table" id="salary-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Role</th>
+              <th>Avg Annual Salary</th>
+              <th>Relative</th>
+            </tr>
+          </thead>
+          <tbody id="salary-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container-fluid-custom">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div style="font-family:var(--font-display);font-weight:700;">JobPulse <span style="color:var(--accent-cyan);">AI</span></div>
+      <div>Indian salary data: industry benchmarks. Global data: Stack Overflow 2024.</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const COLORS = ['#3B82F6','#06B6D4','#8B5CF6','#10B981','#F59E0B','#EF4444'];
+
+const INDIA_ROLES = [
+  { name: 'Data Analyst', icon: '📊', entry: '6–10 LPA', mid: '12–18 LPA', senior: '20–30 LPA', entryPct: 25, midPct: 55, seniorPct: 85 },
+  { name: 'Analytics Engineer', icon: '⚙️', entry: '8–14 LPA', mid: '18–28 LPA', senior: '30–45 LPA', entryPct: 30, midPct: 65, seniorPct: 90 },
+  { name: 'Data Engineer', icon: '🔧', entry: '8–15 LPA', mid: '20–30 LPA', senior: '35–50 LPA', entryPct: 32, midPct: 70, seniorPct: 95 },
+  { name: 'SDE', icon: '💻', entry: '8–20 LPA', mid: '20–40 LPA', senior: '40–70 LPA', entryPct: 35, midPct: 75, seniorPct: 100 },
+];
+
+function renderIndiaSalaryCards() {
+  const container = document.getElementById('india-salary-cards');
+  INDIA_ROLES.forEach((role, idx) => {
+    const col = document.createElement('div');
+    col.className = 'col-md-6 col-xl-3 animate-on-scroll';
+    col.innerHTML = `
+      <div class="salary-role-card ${idx === 3 ? 'featured' : ''}">
+        <div style="font-size:32px;margin-bottom:12px;">${role.icon}</div>
+        <div class="salary-role-name">${role.name}</div>
+        
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">Entry</span>
+            <span style="font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--text-secondary);">${role.entry}</span>
+          </div>
+          <div class="sal-bar-track"><div class="sal-bar-fill" style="width:${role.entryPct}%;background:linear-gradient(90deg,#3B82F6,#06B6D4);"></div></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">3 Years</span>
+            <span style="font-family:var(--font-display);font-size:14px;font-weight:600;color:var(--text-primary);">${role.mid}</span>
+          </div>
+          <div class="sal-bar-track"><div class="sal-bar-fill" style="width:${role.midPct}%;background:linear-gradient(90deg,#8B5CF6,#3B82F6);"></div></div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);">5 Years</span>
+            <span style="font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--accent-cyan);">${role.senior}</span>
+          </div>
+          <div class="sal-bar-track"><div class="sal-bar-fill" style="width:${role.seniorPct}%;background:linear-gradient(90deg,var(--accent-cyan),var(--accent-blue));"></div></div>
+        </div>
+      </div>
+    `;
+    container.appendChild(col);
+  });
+}
+
+async function initSalary() {
+  const salaries = await fetchData('salary_roles.json');
+  renderIndiaSalaryCards();
+
+  // Global chart
+  const maxSal = Math.max(...salaries.map(s => s.avg_salary));
+  Plotly.newPlot('chart-global-salaries', [{
+    type: 'bar',
+    orientation: 'h',
+    x: salaries.map(s => Math.round(s.avg_salary)).reverse(),
+    y: salaries.map(s => s.DevType.length > 38 ? s.DevType.substring(0,36)+'…' : s.DevType).reverse(),
+    marker: {
+      color: salaries.map((_, i) => COLORS[i % COLORS.length]).reverse(),
+      opacity: 0.85,
+      line: { width: 0 }
+    },
+    hovertemplate: '<b>%{y}</b><br>Avg Salary: $%{x:,.0f}<extra></extra>',
+    text: salaries.map(s => `$${Math.round(s.avg_salary/1000)}K`).reverse(),
+    textposition: 'outside',
+    textfont: { color: '#94A3B8', size: 10 }
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 10, r: 70, b: 50, l: 260 },
+    xaxis: {
+      ...PLOTLY_LAYOUT_BASE.xaxis,
+      tickprefix: '$',
+      title: { text: 'Average Annual Salary (USD)', font: { size: 11, color: '#475569' } }
+    },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, tickfont: { size: 10.5, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+
+  // Table
+  const maxS = Math.max(...salaries.map(s=>s.avg_salary));
+  const tbody = document.getElementById('salary-table-body');
+  salaries.forEach((s, i) => {
+    const pct = Math.round((s.avg_salary / maxS) * 100);
+    const color = COLORS[i % COLORS.length];
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-muted);font-family:var(--font-mono);font-size:12px;">${i+1}</td>
+      <td style="color:var(--text-primary);font-weight:500;">${s.DevType}</td>
+      <td style="color:var(--accent-cyan);font-family:var(--font-display);font-weight:600;">$${Math.round(s.avg_salary).toLocaleString()}</td>
+      <td style="min-width:100px;">
+        <div style="height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;">
+          <div style="height:100%;width:${pct}%;background:${color};border-radius:3px;opacity:0.8;"></div>
+        </div>
+      </td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', initSalary);
+</script>
+</body>
+</html>

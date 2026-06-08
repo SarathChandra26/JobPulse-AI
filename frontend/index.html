@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JobPulse AI — AI-Powered Career Intelligence Platform</title>
+  <meta name="description" content="JobPulse AI is an AI-powered career intelligence platform with real-time job market analytics, salary intelligence, and career roadmaps.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/main.css" />
+ 
+<body>
+  <style>
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 0 60px;
+    }
+
+    .hero-bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(59,130,246,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59,130,246,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-family: var(--font-mono);
+      color: #60A5FA;
+      margin-bottom: 28px;
+      animation: fadeInUp 0.5s ease both;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(42px, 7vw, 80px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 24px;
+      animation: fadeInUp 0.6s ease 0.1s both;
+    }
+
+    .hero-title .line-blue {
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title .line-violet {
+      background: linear-gradient(90deg, var(--accent-violet), var(--accent-blue));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-desc {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.7;
+      margin-bottom: 36px;
+      animation: fadeInUp 0.6s ease 0.2s both;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease 0.3s both;
+    }
+
+    .hero-stats {
+      margin-top: 60px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      animation: fadeInUp 0.6s ease 0.4s both;
+    }
+
+    .hero-stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .hero-stat-value {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .hero-stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 4px;
+    }
+
+    .hero-stat-divider {
+      width: 1px;
+      background: var(--border);
+      height: 40px;
+      align-self: center;
+    }
+
+    /* ─── FLOATING CARD ─── */
+    .hero-visual {
+      position: relative;
+      z-index: 2;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+
+    .floating-card {
+      background: rgba(14, 22, 40, 0.9);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+    }
+
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+    .mini-bar {
+      display: flex;
+      align-items: flex-end;
+      gap: 6px;
+      height: 80px;
+    }
+
+    .mini-bar-col {
+      flex: 1;
+      border-radius: 4px 4px 0 0;
+      animation: grow 0.8s ease both;
+      background: linear-gradient(180deg, var(--accent-blue), var(--accent-violet));
+    }
+
+    @keyframes grow {
+      from { height: 0 !important; }
+      to { }
+    }
+
+    .floater-1 {
+      position: absolute;
+      bottom: -20px;
+      left: -30px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .floater-2 {
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      animation: float 5s ease-in-out infinite 1s;
+    }
+
+    .mini-metric {
+      background: rgba(14, 22, 40, 0.95);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      min-width: 140px;
+      backdrop-filter: blur(20px);
+    }
+
+    .mini-metric-val {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .mini-metric-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* ─── FEATURES ─── */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 48px;
+    }
+
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 16px;
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .feature-desc {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ─── TECH STRIP ─── */
+    .tech-strip {
+      padding: 32px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tech-strip-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .tech-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .tech-pill {
+      padding: 6px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    /* ─── CTA SECTION ─── */
+    .cta-section {
+      text-align: center;
+      padding: 100px 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .cta-desc {
+      font-size: 16px;
+      color: var(--text-secondary);
+      max-width: 480px;
+      margin: 0 auto 36px;
+    }
+  </style>
+</head>
+
+<!-- ── NAV ── -->
+<nav class="navbar">
+  <a href="index.html" class="nav-brand">
+    <div class="nav-logo-mark">J</div>
+    <span class="nav-brand-text">JobPulse <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="pages/dashboard.html">Dashboard</a></li>
+    <li><a href="pages/career.html">Career Advisor</a></li>
+    <li><a href="pages/salary.html">Salary</a></li>
+    <li><a href="pages/trends.html">AI Trends</a></li>
+    <li><a href="pages/about.html">About</a></li>
+    <li><a href="pages/dashboard.html" class="nav-cta">Launch App →</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Toggle nav">☰</button>
+</nav>
+
+<!-- ── HERO ── -->
+<div class="page-content">
+<section class="hero">
+  <div class="orb orb-blue" style="top:-100px;left:-150px;"></div>
+  <div class="orb orb-violet" style="bottom:-100px;right:-100px;"></div>
+  <div class="hero-bg-grid"></div>
+
+  <div class="container-fluid-custom w-100">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6">
+        <div class="hero-content">
+          <div class="hero-eyebrow">
+            <span class="stat-ticker-dot"></span>
+            AI-Powered · Real-Time Analytics · Career Intelligence
+          </div>
+          <h1 class="hero-title">
+            Navigate Your<br>
+            <span class="line-blue">Data Career</span><br>
+            <span class="line-violet">with Precision</span>
+          </h1>
+          <p class="hero-desc">
+            JobPulse AI transforms job market data and developer surveys into actionable career intelligence. Discover the right skills, salary expectations, and roadmap for your next role.
+          </p>
+          <div class="hero-ctas">
+            <a href="pages/dashboard.html" class="btn-primary-custom">Explore Dashboard →</a>
+            <a href="pages/career.html" class="btn-ghost-custom">Career Advisor</a>
+          </div>
+          <div class="hero-stats">
+            <div class="hero-stat-item">
+              <span class="hero-stat-value" id="ctr-jobs">0</span>
+              <span class="hero-stat-label">Jobs Analyzed</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-value" id="ctr-devs">0</span>
+              <span class="hero-stat-label">Developer Responses</span>
+            </div>
+            <div class="hero-stat-divider"></div>
+            <div class="hero-stat-item">
+              <span class="hero-stat-value">6</span>
+              <span class="hero-stat-label">Career Profiles</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual position-relative py-4">
+          <!-- Main floating card -->
+          <div class="floating-card" style="animation: float 6s ease-in-out infinite;">
+            <div class="card-header-row">
+              <div class="card-dot" style="background:#EF4444;"></div>
+              <div class="card-dot" style="background:#F59E0B;"></div>
+              <div class="card-dot" style="background:#10B981;"></div>
+              <span style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);margin-left:8px;">jobpulse_analytics.py</span>
+            </div>
+            <div class="mini-bar mb-3">
+              <div class="mini-bar-col" style="height:35%;animation-delay:0.1s;"></div>
+              <div class="mini-bar-col" style="height:65%;animation-delay:0.2s;"></div>
+              <div class="mini-bar-col" style="height:45%;animation-delay:0.3s;"></div>
+              <div class="mini-bar-col" style="height:80%;animation-delay:0.4s;background:linear-gradient(180deg,var(--accent-cyan),var(--accent-blue));"></div>
+              <div class="mini-bar-col" style="height:55%;animation-delay:0.5s;"></div>
+              <div class="mini-bar-col" style="height:90%;animation-delay:0.6s;background:linear-gradient(180deg,var(--accent-violet),var(--accent-blue));"></div>
+              <div class="mini-bar-col" style="height:40%;animation-delay:0.7s;"></div>
+              <div class="mini-bar-col" style="height:70%;animation-delay:0.8s;"></div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">TOP ROLE DEMAND</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--text-primary);">Data Engineer</div>
+                <span class="badge-custom badge-emerald mt-1">↑ Very High</span>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:var(--font-mono);font-size:10px;color:var(--text-muted);">AVG SALARY</div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:18px;color:var(--accent-cyan);">$105K</div>
+                <span class="badge-custom badge-blue mt-1">Global</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Floater 1 -->
+          <div class="floater-1">
+            <div class="mini-metric">
+              <div class="mini-metric-lbl">SDE Salary Range</div>
+              <div class="mini-metric-val">8–70 LPA</div>
+            </div>
+          </div>
+
+          <!-- Floater 2 -->
+          <div class="floater-2">
+            <div class="mini-metric">
+              <div class="mini-metric-lbl">Top Country</div>
+              <div class="mini-metric-val">🇺🇸 1.1M Jobs</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH STRIP ── -->
+<div class="tech-strip">
+  <div class="container-fluid-custom">
+    <div class="tech-strip-label">Powered by real data from</div>
+    <div class="tech-pills">
+      <span class="tech-pill">LinkedIn Jobs Dataset</span>
+      <span class="tech-pill">Stack Overflow Survey 2024</span>
+      <span class="tech-pill">SQLite Analytics Engine</span>
+      <span class="tech-pill">Plotly.js</span>
+      <span class="tech-pill">Python ETL Pipeline</span>
+      <span class="tech-pill">AI Recommendation Engine</span>
+    </div>
+  </div>
+</div>
+
+<!-- ── FEATURES ── -->
+<section class="section">
+  <div class="container-fluid-custom">
+    <div class="section-label">Platform Features</div>
+    <div class="row align-items-start">
+      <div class="col-lg-4 mb-4 mb-lg-0">
+        <h2 class="section-title">Everything you need to <span class="grad">grow your career</span></h2>
+        <p class="section-desc">Built for data professionals who want more than a job board — a career intelligence system.</p>
+        <a href="pages/dashboard.html" class="btn-primary-custom mt-4">Start Exploring →</a>
+      </div>
+      <div class="col-lg-8">
+        <div class="feature-grid">
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(59,130,246,0.12);">📊</div>
+            <div class="feature-title">Live Job Dashboard</div>
+            <div class="feature-desc">Visualize top hiring roles, companies, and countries from 1.3M+ real job postings with interactive Plotly charts.</div>
+          </div>
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(6,182,212,0.12);">🧭</div>
+            <div class="feature-title">Career Advisor</div>
+            <div class="feature-desc">Get personalized skill checklists, certifications, project ideas, and a step-by-step learning roadmap for 6 key roles.</div>
+          </div>
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(139,92,246,0.12);">🎯</div>
+          <div class="feature-desc">Explore structured learning roadmaps, recommended certifications, portfolio projects, and career progression paths to accelerate your journey in data and analytics careers.</div>  
+          </div>
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(16,185,129,0.12);">💰</div>
+            <div class="feature-title">Salary Intelligence</div>
+            <div class="feature-desc">Compare entry, 3-year, and 5-year salary projections across all major data and engineering roles.</div>
+          </div>
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(245,158,11,0.12);">🤖</div>
+            <div class="feature-title">AI Trends Monitor</div>
+            <div class="feature-desc">Stay ahead with adoption curves, technology shifts, and market signals extracted from 49K+ developer responses.</div>
+          </div>
+          <div class="feature-card animate-on-scroll">
+            <div class="feature-icon" style="background:rgba(239,68,68,0.12);">🗺️</div>
+            <div class="feature-title">Global Job Map</div>
+            <div class="feature-desc">See where the jobs are — from the 1.1M US market to UK, Canada, Australia, and beyond.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gradient-line"></div>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="orb orb-blue" style="top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.5;"></div>
+  <div class="container-fluid-custom position-relative">
+    <div class="section-label" style="justify-content:center;">Ready to begin?</div>
+    <h2 class="cta-title">
+      Your next career move<br>
+      <span style="background:linear-gradient(90deg,var(--accent-blue),var(--accent-cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">starts with data</span>
+    </h2>
+    <p class="cta-desc">Stop guessing. Start analyzing. Let JobPulse AI give you the edge that every data career needs.</p>
+    <div class="d-flex gap-3 justify-content-center flex-wrap">
+      <a href="pages/dashboard.html" class="btn-primary-custom">Explore Dashboard →</a>
+      <a href="pages/career.html" class="btn-ghost-custom">Career Advisor</a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <div class="container-fluid-custom">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div style="font-family:var(--font-display);font-weight:700;font-size:15px;">JobPulse <span style="color:var(--accent-cyan);">AI</span></div>
+      <div>Built with ❤️ using LinkedIn Jobs + Stack Overflow data · <a href="pages/about.html">About</a></div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    animateCounter(document.getElementById('ctr-jobs'), 1300000, 2000, '', '+');
+    animateCounter(document.getElementById('ctr-devs'), 49000, 1800, '', '+');
+  });
+</script>
+</body>
+<footer class="footer">
+    <div class="container text-center">
+        <p>© 2026 JobPulse AI</p>
+        <p>Designed & Developed by <strong>Sarath Chandra Ummadishetty</strong></p>
+    </div>
+</footer>
+</html>

@@ -1,0 +1,5 @@
+data/raw/
+database/
+venv/
+__pycache__/
+*.db

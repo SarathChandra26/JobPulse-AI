@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Trends — JobPulse AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <style>
+    .trend-stat-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .trend-stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+    }
+
+    .trend-stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .trend-stat-lbl {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .charts-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 900px) { .charts-2col { grid-template-columns: 1fr; } }
+
+    .insight-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: var(--transition);
+    }
+
+    .insight-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .insight-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .insight-title {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .insight-body {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="../index.html" class="nav-brand">
+    <div class="nav-logo-mark">J</div>
+    <span class="nav-brand-text">JobPulse <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="career.html">Career Advisor</a></li>
+    <li><a href="salary.html">Salary</a></li>
+    <li><a href="trends.html" class="active">AI Trends</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">Launch App →</a></li>
+  </ul>
+  <button class="nav-toggle">☰</button>
+</nav>
+
+<div class="page-content">
+  <div class="container-fluid-custom">
+    <div style="padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;">
+      <div class="section-label">Market Intelligence</div>
+      <h1 class="section-title">AI <span class="grad">Trends</span></h1>
+      <p class="section-desc">Technology adoption signals, AI threat perception, and market trends derived from 49K+ Stack Overflow developer responses.</p>
+    </div>
+
+    <!-- Key Stats -->
+    <div class="trend-stat-row">
+      <div class="trend-stat-card animate-on-scroll">
+        <div class="trend-stat-num" style="color:var(--accent-cyan);">62%</div>
+        <div class="trend-stat-lbl">Developers using AI tools in workflow</div>
+      </div>
+      <div class="trend-stat-card animate-on-scroll">
+        <div class="trend-stat-num" style="color:var(--accent-blue);">70%</div>
+        <div class="trend-stat-lbl">Trust AI-generated code "somewhat"</div>
+      </div>
+      <div class="trend-stat-card animate-on-scroll">
+        <div class="trend-stat-num" style="color:var(--accent-violet);">28%</div>
+        <div class="trend-stat-lbl">Concerned AI threatens their job</div>
+      </div>
+      <div class="trend-stat-card animate-on-scroll">
+        <div class="trend-stat-num" style="color:var(--accent-emerald);">83%</div>
+        <div class="trend-stat-lbl">Python remains top data language</div>
+      </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="charts-2col">
+      <div class="chart-container animate-on-scroll">
+        <div class="chart-title">AI Tool Usage by Developer Category</div>
+        <div class="chart-subtitle">% actively using AI coding assistants · 2024</div>
+        <div id="chart-ai-adoption" style="height:320px;"></div>
+      </div>
+      <div class="chart-container animate-on-scroll">
+        <div class="chart-title">AI Threat Perception vs Role Seniority</div>
+        <div class="chart-subtitle">% expressing job displacement concern</div>
+        <div id="chart-ai-threat" style="height:320px;"></div>
+      </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="charts-2col">
+      <div class="chart-container animate-on-scroll">
+        <div class="chart-title">Top Technologies Developers Want to Learn</div>
+        <div class="chart-subtitle">Most desired technologies · Stack Overflow 2024</div>
+        <div id="chart-tech-trends" style="height:320px;"></div>
+      </div>
+      <div class="chart-container animate-on-scroll">
+        <div class="chart-title">Database Technology Trends</div>
+        <div class="chart-subtitle">Most used database technologies in professional work</div>
+        <div id="chart-db-trends" style="height:320px;"></div>
+      </div>
+    </div>
+
+    <!-- Salary by AI adoption -->
+    <div class="chart-container mb-5 animate-on-scroll">
+      <div class="chart-title">Salary Impact: AI Tool Adopters vs Non-Adopters</div>
+      <div class="chart-subtitle">Estimated compensation differential by experience level</div>
+      <div id="chart-ai-salary-impact" style="height:280px;"></div>
+    </div>
+
+    <!-- Insights -->
+    <div class="section-label mb-3">Key Market Insights</div>
+    <div class="row g-3 mb-5">
+      <div class="col-md-6">
+        <div class="insight-card animate-on-scroll">
+          <div class="insight-icon" style="background:rgba(59,130,246,0.12);">🤖</div>
+          <div>
+            <div class="insight-title">AI is augmenting, not replacing</div>
+            <div class="insight-body">76% of developers who use AI tools report higher productivity. The fear of AI replacement is dropping among senior engineers who understand how to leverage it strategically.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="insight-card animate-on-scroll">
+          <div class="insight-icon" style="background:rgba(6,182,212,0.12);">📈</div>
+          <div>
+            <div class="insight-title">Data roles see highest demand growth</div>
+            <div class="insight-body">Data engineering and analytics engineering are the fastest-growing roles in 2024, driven by the explosion of AI infrastructure needs and real-time data pipelines.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="insight-card animate-on-scroll">
+          <div class="insight-icon" style="background:rgba(139,92,246,0.12);">☁️</div>
+          <div>
+            <div class="insight-title">Cloud-native skills command premium</div>
+            <div class="insight-body">Engineers with AWS, GCP, or Azure certifications earn 22-35% more than counterparts without cloud expertise. Cloud infrastructure engineers rank 3rd in global salary rankings.</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="insight-card animate-on-scroll">
+          <div class="insight-icon" style="background:rgba(16,185,129,0.12);">🐍</div>
+          <div>
+            <div class="insight-title">Python dominance continues in 2024</div>
+            <div class="insight-body">Python remains the #1 language for data professionals for the 4th consecutive year. Combined with SQL proficiency, it's the baseline expectation for virtually all analytical roles.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container-fluid-custom">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div style="font-family:var(--font-display);font-weight:700;">JobPulse <span style="color:var(--accent-cyan);">AI</span></div>
+      <div>Trend data derived from Stack Overflow Developer Survey 2024 · 49K+ respondents</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+const C = ['#3B82F6','#06B6D4','#8B5CF6','#10B981','#F59E0B','#EF4444','#EC4899','#F97316'];
+
+document.addEventListener('DOMContentLoaded', () => {
+  // AI Adoption
+  const devTypes = ['Full-Stack Dev','Front-End Dev','Back-End Dev','Data Scientist','Data Engineer','DevOps','AI/ML Eng','Mobile Dev'];
+  const adoptionRates = [68, 71, 65, 75, 72, 58, 88, 54];
+  Plotly.newPlot('chart-ai-adoption', [{
+    type: 'bar',
+    x: devTypes,
+    y: adoptionRates,
+    marker: { color: C, opacity: 0.85 },
+    hovertemplate: '<b>%{x}</b><br>AI Adoption: %{y}%<extra></extra>',
+    text: adoptionRates.map(v => v+'%'),
+    textposition: 'outside',
+    textfont: { color: '#94A3B8', size: 11 }
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t:30, r:20, b:90, l:40 },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, ticksuffix: '%', range: [0, 100] },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickfont: { size: 10.5, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+
+  // AI Threat
+  const levels = ['Junior (0-2y)', 'Mid (3-5y)', 'Senior (6-10y)', 'Lead (10y+)', 'Principal+'];
+  const threat = [42, 31, 22, 18, 12];
+  Plotly.newPlot('chart-ai-threat', [{
+    type: 'scatter',
+    mode: 'lines+markers',
+    x: levels,
+    y: threat,
+    line: { color: '#EF4444', width: 3 },
+    marker: { color: '#EF4444', size: 10, line: { color: 'white', width: 2 } },
+    fill: 'tozeroy',
+    fillcolor: 'rgba(239,68,68,0.08)',
+    hovertemplate: '<b>%{x}</b><br>Concerned: %{y}%<extra></extra>'
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 20, r: 20, b: 60, l: 50 },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, ticksuffix: '%', title: { text: 'Job Concern %', font: { size: 11, color: '#475569' } } },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickfont: { size: 11, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+
+  // Tech Trends
+  const techs = ['Rust', 'TypeScript', 'Kotlin', 'Go', 'Python', 'Swift', 'Elixir', 'Zig'];
+  const desired = [31, 39, 25, 35, 58, 20, 12, 10];
+  Plotly.newPlot('chart-tech-trends', [{
+    type: 'bar',
+    orientation: 'h',
+    x: desired.reverse(),
+    y: techs.reverse(),
+    marker: { color: C, opacity: 0.85 },
+    hovertemplate: '<b>%{y}</b><br>Desired: %{x}%<extra></extra>',
+    text: desired.map(v=>v+'%'),
+    textposition: 'outside',
+    textfont: { color: '#94A3B8', size: 11 }
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 10, r: 60, b: 50, l: 90 },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, ticksuffix: '%', title: { text: '% Wanting to Learn', font: { size: 11, color: '#475569' } } },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, tickfont: { size: 12, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+
+  // DB trends
+  const dbs = ['PostgreSQL','MySQL','SQLite','MongoDB','Redis','Elasticsearch','Supabase','DynamoDB'];
+  const dbUsage = [49, 40, 33, 28, 30, 13, 11, 12];
+  Plotly.newPlot('chart-db-trends', [{
+    type: 'bar',
+    x: dbs,
+    y: dbUsage,
+    marker: { color: C, opacity: 0.85 },
+    hovertemplate: '<b>%{x}</b><br>Usage: %{y}%<extra></extra>',
+    text: dbUsage.map(v=>v+'%'),
+    textposition: 'outside',
+    textfont: { color: '#94A3B8', size: 11 }
+  }], {
+    ...PLOTLY_LAYOUT_BASE,
+    margin: { t: 30, r: 20, b: 60, l: 40 },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, ticksuffix: '%' },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickfont: { size: 10.5, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+
+  // AI salary impact
+  const expLevels = ['0-2 years', '3-5 years', '6-10 years', '10+ years'];
+  const withAI = [72000, 105000, 148000, 195000];
+  const withoutAI = [61000, 88000, 122000, 168000];
+  Plotly.newPlot('chart-ai-salary-impact', [
+    {
+      type: 'bar',
+      name: 'AI Tool Users',
+      x: expLevels,
+      y: withAI,
+      marker: { color: '#3B82F6', opacity: 0.9 },
+      hovertemplate: '<b>%{x}</b><br>With AI: $%{y:,}<extra></extra>'
+    },
+    {
+      type: 'bar',
+      name: 'Non-AI Users',
+      x: expLevels,
+      y: withoutAI,
+      marker: { color: 'rgba(139,92,246,0.7)', opacity: 0.9 },
+      hovertemplate: '<b>%{x}</b><br>Without AI: $%{y:,}<extra></extra>'
+    }
+  ], {
+    ...PLOTLY_LAYOUT_BASE,
+    barmode: 'group',
+    bargap: 0.25,
+    bargroupgap: 0.1,
+    margin: { t: 20, r: 20, b: 50, l: 80 },
+    yaxis: { ...PLOTLY_LAYOUT_BASE.yaxis, tickprefix: '$', title: { text: 'Avg Salary (USD)', font: { size: 11, color: '#475569' } } },
+    xaxis: { ...PLOTLY_LAYOUT_BASE.xaxis, tickfont: { size: 12, color: '#94A3B8' } }
+  }, PLOTLY_CONFIG);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+[
+    {
+        "DevType":"Financial analyst or engineer",
+        "avg_salary":437547.0
+    },
+    {
+        "DevType":"Senior executive (C-suite, VP, etc.)",
+        "avg_salary":208800.7943037975
+    },
+    {
+        "DevType":"Engineering manager",
+        "avg_salary":174202.2984658298
+    },
+    {
+        "DevType":"Founder, technology or otherwise",
+        "avg_salary":169280.5440414508
+    },
+    {
+        "DevType":"Developer, embedded applications or devices",
+        "avg_salary":158180.5187580854
+    },
+    {
+        "DevType":"Cybersecurity or InfoSec professional",
+        "avg_salary":144322.3989637306
+    },
+    {
+        "DevType":"Cloud infrastructure engineer",
+        "avg_salary":125994.3872180451
+    },
+    {
+        "DevType":"Product manager",
+        "avg_salary":121218.8869565217
+    },
+    {
+        "DevType":"Architect, software or solutions",
+        "avg_salary":118906.1057810578
+    },
+    {
+        "DevType":"Applied scientist",
+        "avg_salary":118456.8580246914
+    },
+    {
+        "DevType":"AI\/ML engineer",
+        "avg_salary":114021.3323863636
+    },
+    {
+        "DevType":"System administrator",
+        "avg_salary":108306.6639004149
+    },
+    {
+        "DevType":"Database administrator or engineer",
+        "avg_salary":107244.3939393939
+    },
+    {
+        "DevType":"Data engineer",
+        "avg_salary":105712.0594262295
+    },
+    {
+        "DevType":"Support engineer or analyst",
+        "avg_salary":101600.3412698413
+    },
+    {
+        "DevType":"Data scientist",
+        "avg_salary":101126.4405797102
+    },
+    {
+        "DevType":"Developer, back-end",
+        "avg_salary":100619.7441094502
+    },
+    {
+        "DevType":"DevOps engineer or professional",
+        "avg_salary":100575.944045911
+    },
+    {
+        "DevType":"Other (please specify):",
+        "avg_salary":92433.1736453202
+    },
+    {
+        "DevType":"Developer, full-stack",
+        "avg_salary":91902.2536670704
+    }
+]

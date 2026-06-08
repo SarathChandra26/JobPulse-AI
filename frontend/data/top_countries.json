@@ -1,0 +1,18 @@
+[
+    {
+        "search_country":"United States",
+        "total_jobs":1149342
+    },
+    {
+        "search_country":"United Kingdom",
+        "total_jobs":113421
+    },
+    {
+        "search_country":"Canada",
+        "total_jobs":55972
+    },
+    {
+        "search_country":"Australia",
+        "total_jobs":29719
+    }
+]

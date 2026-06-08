@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Advisor — JobPulse AI</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+  
+  <style>
+    .role-selector {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .role-btn {
+      padding: 10px 20px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: var(--font-body);
+    }
+
+    .role-btn:hover {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    .role-btn.active {
+      background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+      border-color: transparent;
+      color: white;
+      font-weight: 600;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    @media (max-width: 768px) { .profile-grid { grid-template-columns: 1fr; } }
+
+    .demand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .demand-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      animation: pulse-glow 2s infinite;
+    }
+
+    .salary-bar-wrap { margin-top: 8px; }
+
+    .salary-bar-track {
+      height: 6px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .salary-bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
+      transition: width 1s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .proj-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      font-size: 13.5px;
+    }
+
+    .proj-label { color: var(--text-muted); font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .proj-value { color: var(--text-primary); font-weight: 600; font-family: var(--font-display); font-size: 15px; }
+
+    .not-found-note {
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: var(--radius);
+      padding: 12px 16px;
+      font-size: 12.5px;
+      color: #FCD34D;
+      font-family: var(--font-mono);
+    }
+  </style>
+</head>
+<body>
+<nav class="navbar">
+  <a href="../index.html" class="nav-brand">
+    <div class="nav-logo-mark">J</div>
+    <span class="nav-brand-text">JobPulse <span>AI</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Home</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="career.html" class="active">Career Advisor</a></li>
+    <li><a href="salary.html">Salary</a></li>
+    <li><a href="trends.html">AI Trends</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="dashboard.html" class="nav-cta">Launch App →</a></li>
+  </ul>
+  <button class="nav-toggle">☰</button>
+</nav>
+
+<div class="page-content">
+  <div class="container-fluid-custom">
+    <div style="padding:48px 0 32px;border-bottom:1px solid var(--border);margin-bottom:40px;">
+      <div class="section-label">Career Intelligence</div>
+      <h1 class="section-title">Career <span class="grad">Advisor</span></h1>
+      <p class="section-desc">Select a career path to see your personalized skills, certifications, projects, salary range, and learning roadmap.</p>
+    </div>
+
+    <!-- Role selector -->
+    <div class="role-selector" id="role-selector"></div>
+
+    <!-- Profile content -->
+    <div id="profile-content"></div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container-fluid-custom">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div style="font-family:var(--font-display);font-weight:700;">JobPulse <span style="color:var(--accent-cyan);">AI</span></div>
+      <div>Career data curated from industry standards and market analysis</div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/main.js"></script>
+<script>
+let profileData = {};
+
+const ROLE_ICONS = {
+  'Data Analyst': '📊', 'Analytics Engineer': '⚙️', 'Data Engineer': '🔧',
+  'Business Analyst': '💼', 'Product Analyst': '🎯', 'SDE': '💻'
+};
+
+const DEMAND_CONFIG = {
+  'Very High': { color: '#10B981', dot: '#10B981', pct: '90%' },
+  'High': { color: '#3B82F6', dot: '#3B82F6', pct: '70%' }
+};
+
+async function init() {
+  profileData = await fetchData('career_profiles.json');
+  const roles = Object.keys(profileData);
+  const selector = document.getElementById('role-selector');
+
+  roles.forEach((role, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'role-btn' + (i === 0 ? ' active' : '');
+    btn.innerHTML = `${ROLE_ICONS[role] || '🔹'} ${role}`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.role-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProfile(role);
+    });
+    selector.appendChild(btn);
+  });
+
+  renderProfile(roles[0]);
+}
+
+function renderProfile(role) {
+  const data = profileData[role];
+  const info = data.role_info;
+  const salaryData = data.salary;
+  const roadmap = data.roadmap;
+  const demand = info.demand || 'High';
+  const demandCfg = DEMAND_CONFIG[demand] || DEMAND_CONFIG['High'];
+  const hasSalaryProjection = typeof salaryData === 'object' && salaryData.entry;
+
+  const skillsHTML = info.skills.map(s => `<span class="skill-tag">${s}</span>`).join('');
+  const certsHTML = info.certifications.map(c =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="width:6px;height:6px;background:var(--accent-cyan);border-radius:50%;flex-shrink:0;"></div>
+      <span style="font-size:13.5px;color:var(--text-secondary);">${c}</span>
+    </div>`
+  ).join('');
+  const projectsHTML = info.projects.map(p =>
+    `<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);">
+      <div style="width:6px;height:6px;background:var(--accent-violet);border-radius:50%;flex-shrink:0;"></div>
+      <span style="font-size:13.5px;color:var(--text-secondary);">${p}</span>
+    </div>`
+  ).join('');
+  const roadmapHTML = roadmap[0] === 'Roadmap Not Found'
+    ? `<div class="not-found-note">⚠ Roadmap coming soon for this role.</div>`
+    : roadmap.map((step, i) =>
+        `<div class="roadmap-step">
+          <div class="roadmap-num">${i+1}</div>
+          <div class="roadmap-text">${step}</div>
+        </div>`
+      ).join('');
+
+  const salaryHTML = hasSalaryProjection ? `
+    <div class="proj-row">
+      <div>
+        <div class="proj-label">Entry Level</div>
+        <div class="proj-value">${salaryData.entry}</div>
+      </div>
+      <div class="salary-bar-track" style="width:140px;">
+        <div class="salary-bar-fill" style="width:30%;"></div>
+      </div>
+    </div>
+    <div class="proj-row">
+      <div>
+        <div class="proj-label">3 Years</div>
+        <div class="proj-value">${salaryData['3_years']}</div>
+      </div>
+      <div class="salary-bar-track" style="width:140px;">
+        <div class="salary-bar-fill" style="width:60%;"></div>
+      </div>
+    </div>
+    <div class="proj-row" style="border-bottom:none;">
+      <div>
+        <div class="proj-label">5 Years</div>
+        <div class="proj-value">${salaryData['5_years']}</div>
+      </div>
+      <div class="salary-bar-track" style="width:140px;">
+        <div class="salary-bar-fill" style="width:90%;"></div>
+      </div>
+    </div>` :
+    `<div class="not-found-note">📊 Salary projections not yet available for this role.</div>`;
+
+  document.getElementById('profile-content').innerHTML = `
+    <div style="animation:fadeInUp 0.4s ease both;">
+      <!-- Top info bar -->
+      <div class="glass-card mb-4" style="display:flex;flex-wrap:wrap;gap:24px;align-items:center;">
+        <div>
+          <div style="font-size:40px;margin-bottom:6px;">${ROLE_ICONS[role] || '🔹'}</div>
+        </div>
+        <div style="flex:1;min-width:200px;">
+          <div style="font-family:var(--font-display);font-size:26px;font-weight:700;color:var(--text-primary);">${role}</div>
+          <div class="demand-badge mt-2">
+            <div class="demand-dot" style="background:${demandCfg.dot};"></div>
+            <span style="font-size:13px;color:${demandCfg.color};font-weight:600;">${demand} Demand</span>
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-family:var(--font-mono);font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;">Entry Salary</div>
+          <div style="font-family:var(--font-display);font-size:28px;font-weight:700;color:var(--accent-cyan);">${info.salary}</div>
+        </div>
+      </div>
+
+      <!-- Profile grid -->
+      <div class="profile-grid">
+        <!-- Skills -->
+        <div class="glass-card">
+          <div class="chart-title mb-1">Required Skills</div>
+          <div class="chart-subtitle">Core competencies for this role</div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;">${skillsHTML}</div>
+        </div>
+
+        <!-- Certifications -->
+        <div class="glass-card">
+          <div class="chart-title mb-1">Recommended Certifications</div>
+          <div class="chart-subtitle">Industry-recognized credentials</div>
+          <div style="margin-top:12px;">${certsHTML}</div>
+        </div>
+
+        <!-- Projects -->
+        <div class="glass-card">
+          <div class="chart-title mb-1">Portfolio Projects</div>
+          <div class="chart-subtitle">Build to impress recruiters</div>
+          <div style="margin-top:12px;">${projectsHTML}</div>
+        </div>
+
+        <!-- Salary -->
+        <div class="glass-card">
+          <div class="chart-title mb-1">Salary Progression</div>
+          <div class="chart-subtitle">Indian market (LPA)</div>
+          <div style="margin-top:16px;">${salaryHTML}</div>
+        </div>
+      </div>
+
+      <!-- Roadmap -->
+      <div class="glass-card mt-4">
+        <div class="chart-title mb-1">Learning Roadmap</div>
+        <div class="chart-subtitle">Step-by-step path to becoming a ${role}</div>
+        <div style="margin-top:16px;">${roadmapHTML}</div>
+      </div>
+    </div>
+  `;
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
